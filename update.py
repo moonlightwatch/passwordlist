@@ -97,7 +97,7 @@ class ExportPasswordList(object):
         os.popen(cmd="git commit -m \"update\"").read()
         os.popen(cmd="git push").read()
         os.popen(cmd="git checkout gh-pages").read()
-        with open(file="index.html", mode="w") as fp:
+        with open(file="index.md", mode="w") as fp:
             fp.write(self.get_info())
         os.popen(cmd="git add .").read()
         os.popen(cmd="git commit -m \"update\"").read()
