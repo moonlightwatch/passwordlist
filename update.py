@@ -68,6 +68,8 @@ class ExportPasswordList(object):
         推送
         """
         os.popen(cmd="git add .").read()
+        os.popen(cmd="git commit -m \"update\"").read()
+        os.popen(cmd="git push").read()
 
     def load_all_passwords(self) -> None:
         """
@@ -142,10 +144,10 @@ class ExportPasswordList(object):
 
 
 def main():
-    os.popen(cmd="git add .").read()
-    return
     export = ExportPasswordList()
     export.load_all_passwords()
+    export.output()
+    export.push()
     export.close()
 
 
