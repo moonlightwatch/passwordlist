@@ -23,9 +23,9 @@ class ExportPasswordList(object):
         self._letters_upper = list()
         self._letter_lower = list()
         self._num_letters = list()
-        self._num_symbols = list()
-        self._letter_symbols = list()
-        self._num_letter_symbols = list()
+        self._num_signs = list()
+        self._letter_signs = list()
+        self._num_letter_signs = list()
 
     def output(self) -> None:
         """
@@ -35,16 +35,16 @@ class ExportPasswordList(object):
             for item in self.passwords:
                 fp.write(item)
                 fp.write("\n")
-        with open(file="num_letter_symbols.txt", mode="w") as fp:
-            for item in self._num_letter_symbols:
+        with open(file="num_letter_signs.txt", mode="w") as fp:
+            for item in self._num_letter_signs:
                 fp.write(item)
                 fp.write("\n")
-        with open(file="letter_symbols.txt", mode="w") as fp:
-            for item in self._letter_symbols:
+        with open(file="letter_signs.txt", mode="w") as fp:
+            for item in self._letter_signs:
                 fp.write(item)
                 fp.write("\n")
-        with open(file="num_symbols.txt", mode="w") as fp:
-            for item in self._num_symbols:
+        with open(file="num_signs.txt", mode="w") as fp:
+            for item in self._num_signs:
                 fp.write(item)
                 fp.write("\n")
         with open(file="num_letters.txt", mode="w") as fp:
@@ -80,9 +80,9 @@ class ExportPasswordList(object):
         result["统计数据"]["大写字母密码"] = self._letters_upper.count()
         result["统计数据"]["小写字母密码"] = self._letter_lower.count()
         result["统计数据"]["数字字母组合密码"] = self._num_letters.count()
-        result["统计数据"]["数字符号组合密码"] = self._num_symbols.count()
-        result["统计数据"]["字母符号组合密码"] = self._letter_symbols.count()
-        result["统计数据"]["字母数字符号混合密码"] = self._num_letter_symbols.count()
+        result["统计数据"]["数字符号组合密码"] = self._num_signs.count()
+        result["统计数据"]["字母符号组合密码"] = self._letter_signs.count()
+        result["统计数据"]["字母数字符号混合密码"] = self._num_letter_signs.count()
         result["更新时间"] = time.strftime(
             "%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         result["项目地址"] = "https://github.com/moonlightwatch/passwordlist"
@@ -139,11 +139,11 @@ class ExportPasswordList(object):
                 self._num_letters.append(pwd)
             else:
                 if re.search("[0-9]+", pwd) == None:
-                    self._letter_symbols.append(pwd)
+                    self._letter_signs.append(pwd)
                 elif re.search("[A-Za-z]+", pwd) == None:
-                    self._num_symbols.append(pwd)
+                    self._num_signs.append(pwd)
                 else:
-                    self._num_letter_symbols.append(pwd)
+                    self._num_letter_signs.append(pwd)
 
     def _get_config(self) -> dict:
         """
