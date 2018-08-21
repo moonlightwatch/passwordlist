@@ -63,6 +63,12 @@ class ExportPasswordList(object):
                 fp.write(item)
                 fp.write("\n")
 
+    def push(self) -> None:
+        """
+        推送
+        """
+        os.popen(cmd="git add .").read()
+
     def load_all_passwords(self) -> None:
         """
         获取数据
@@ -88,13 +94,13 @@ class ExportPasswordList(object):
         for pwd in passwords:
             if re.match("^\d+$", pwd):
                 self._numbers.append(pwd)
-            elif re.match("^[A-Za-z]+$"):
+            elif re.match("^[A-Za-z]+$", pwd):
                 self._letters.append(pwd)
-                if re.match("^[A-Z]+$"):
+                if re.match("^[A-Z]+$", pwd):
                     self._letters_upper.append(pwd)
-                else re.match("^[a-z]+$"):
+                elif re.match("^[a-z]+$", pwd):
                     self._letter_lower.append(pwd)
-            elif re.match("^[A-Za-z0-9]+$") and re.search("[A-Za-z]+", pwd) != None and re.search("[0-9]+", pwd) != None:
+            elif re.match("^[A-Za-z0-9]+$", pwd) and re.search("[A-Za-z]+", pwd) != None and re.search("[0-9]+", pwd) != None:
                 self._num_letters.append(pwd)
             else:
                 if re.search("[0-9]+", pwd) == None:
@@ -136,6 +142,8 @@ class ExportPasswordList(object):
 
 
 def main():
+    os.popen(cmd="git add .").read()
+    return
     export = ExportPasswordList()
     export.load_all_passwords()
     export.close()
