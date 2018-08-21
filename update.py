@@ -87,7 +87,7 @@ class ExportPasswordList(object):
             "%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         result["项目地址"] = "https://github.com/moonlightwatch/passwordlist"
 
-        return json.dumps(obj=result, indent=4, sort_keys=True)
+        return json.dumps(obj=result, ensure_ascii=False, indent=4, sort_keys=True)
 
     def push(self) -> None:
         """
@@ -97,7 +97,7 @@ class ExportPasswordList(object):
         os.popen(cmd="git commit -m \"update\"").read()
         os.popen(cmd="git push").read()
         os.popen(cmd="git checkout gh-pages").read()
-        with open(file="index.md", mode="w") as fp:
+        with open(file="index.md", mode="w", encoding="utf-8") as fp:
             fp.write(self.get_info())
         os.popen(cmd="git add .").read()
         os.popen(cmd="git commit -m \"update\"").read()
