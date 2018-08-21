@@ -3,6 +3,7 @@
 import os
 import re
 import json
+import time
 import pymongo
 
 
@@ -67,6 +68,27 @@ class ExportPasswordList(object):
                 fp.write(item)
                 fp.write("\n")
 
+    def get_info(self) -> str:
+        """
+        获取统计数据
+        """
+        result = dict()
+        result["统计数据"] = dict()
+        result["统计数据"]["总计"] = self.passwords.count()
+        result["统计数据"]["纯数字密码"] = self._numbers.count()
+        result["统计数据"]["纯字母密码"] = self._letters.count()
+        result["统计数据"]["大写字母密码"] = self._letters_upper.count()
+        result["统计数据"]["小写字母密码"] = self._letter_lower.count()
+        result["统计数据"]["数字字母组合密码"] = self._num_letters.count()
+        result["统计数据"]["数字符号组合密码"] = self._num_symbols.count()
+        result["统计数据"]["字母符号组合密码"] = self._letter_symbols.count()
+        result["统计数据"]["字母数字符号混合密码"] = self._num_letter_symbols.count()
+        result["更新时间"] = time.strftime(
+            "%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+        result["项目地址"] = "https://github.com/moonlightwatch/passwordlist"
+
+        return json.dumps(obj=result, indent=4, sort_keys=True)
+
     def push(self) -> None:
         """
         推送
@@ -74,6 +96,13 @@ class ExportPasswordList(object):
         os.popen(cmd="git add .").read()
         os.popen(cmd="git commit -m \"update\"").read()
         os.popen(cmd="git push").read()
+        os.popen(cmd="git checkout gh-pages").read()
+        with open(file="index.html", mode="r") as fp:
+            fp.write(self.get_info())
+        os.popen(cmd="git add .").read()
+        os.popen(cmd="git commit -m \"update\"").read()
+        os.popen(cmd="git push").read()
+        os.popen(cmd="git checkout master").read()
 
     def load_all_passwords(self) -> None:
         """
