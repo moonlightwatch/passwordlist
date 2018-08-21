@@ -30,6 +30,10 @@ class ExportPasswordList(object):
         """
         输出成文件
         """
+        with open(file="passwords.txt", mode="w") as fp:
+            for item in self.passwords:
+                fp.write(item)
+                fp.write("\n")
         with open(file="num_letter_symbols.txt", mode="w") as fp:
             for item in self._num_letter_symbols:
                 fp.write(item)
