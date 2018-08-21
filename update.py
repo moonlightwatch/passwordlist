@@ -15,7 +15,7 @@ class ExportPasswordList(object):
         self._config = self._get_config()
         self._db_client = self._get_db(self._config)
         self.collection = self._get_dbcollection(self._config)
-        self.passwords = set()
+        self.passwords = list()
 
         self._numbers = list()
         self._letters = list()
@@ -81,11 +81,11 @@ class ExportPasswordList(object):
             s = self.collection.find({}).skip(1000*i).limit(1000)
             pwd_list = list()
             for item in s:
-                self.passwords.add(item["p"])
+                self.passwords.append(item["p"])
                 pwd_list.append(item["p"])
             print(f"{len(self.passwords)}/{count}")
             self._check_passwords(pwd_list)
-            if s.count() < 1000:
+            if len(self.passwords) > count:
                 break
             i += 1
 
