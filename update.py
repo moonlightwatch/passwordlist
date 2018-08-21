@@ -98,7 +98,9 @@ class ExportPasswordList(object):
         os.popen(cmd="git push").read()
         os.popen(cmd="git checkout gh-pages").read()
         with open(file="index.html", mode="w", encoding="utf-8") as fp:
+            fp.write("<textarea style=\"width: 1366px; height: 700px;\">")
             fp.write(self.get_info())
+            fp.write("</textarea>")
         os.popen(cmd="git add .").read()
         os.popen(cmd="git commit -m \"update\"").read()
         os.popen(cmd="git push").read()
